@@ -76,16 +76,16 @@ data class Post(
 
 abstract class Attachment(open val type: String)
 
-open class AudioAttachment(override val type: String) : Attachment(type)
-class Audio(override val type: String, val mp3: String) : AudioAttachment(type)
-open class VideoAttachment(override val type: String) : Attachment(type)
-class Video(override val type: String, val vid: String) : VideoAttachment(type)
-open class PhotoAttachment(override val type: String) : Attachment(type)
-class Photo(override val type: String, val pic: String) : PhotoAttachment(type)
-open class DocAttachment(override val type: String) : Attachment(type)
-class Doc(override val type: String, val docs: String) : DocAttachment(type)
-open class LinkAttachment(override val type: String) : Attachment(type)
-class Link(override val type: String, val link: String) : DocAttachment(type)
+open class AudioAttachment(val audio: Audio) : Attachment("audio")
+class Audio() : AudioAttachment(Audio())
+open class VideoAttachment(val video: Video) : Attachment("video")
+class Video() : VideoAttachment(Video())
+open class PhotoAttachment(val photo: Photo) : Attachment("photo")
+class Photo() : PhotoAttachment(Photo())
+open class DocAttachment( val doc: Doc) : Attachment("doc")
+class Doc() : DocAttachment(Doc())
+open class LinkAttachment(val link : Link) : Attachment("link")
+class Link() : LinkAttachment(Link())
 
 
 object WallService {
@@ -111,7 +111,7 @@ object WallService {
             markedAsAds = false,
             isFavorite = false,
             postponedId = 1,
-            attachment = arrayOf(Audio("type", "song"))
+            attachment = arrayOf(Audio())
         )
         return posts.last()
     }
@@ -136,7 +136,7 @@ object WallService {
                     markedAsAds = false,
                     isFavorite = false,
                     postponedId = 1,
-                    attachment = arrayOf(Video("type", "video"))
+                    attachment = arrayOf(Video())
                 )
                 return true
             }

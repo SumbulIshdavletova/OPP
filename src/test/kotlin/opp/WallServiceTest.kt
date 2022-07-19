@@ -29,7 +29,7 @@ class WallServiceTest {
                 markedAsAds = false,
                 isFavorite = false,
                 postponedId = 1,
-                attachment = arrayOf(Audio("type","song"))
+                attachment = arrayOf(Audio())
             )
         )
         val result = post.id != 0
