@@ -19,7 +19,7 @@ data class Post(
     val markedAsAds: Boolean,
     val isFavorite: Boolean,
     val postponedId: Int,
-    val attachment: Array<Attachment>
+    val attachment: Array<Attachment> = emptyArray()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -74,7 +74,7 @@ data class Post(
     }
 }
 
-abstract class Attachment(open val type: String)
+abstract class Attachment(val type: String)
 
 open class AudioAttachment(val audio: Audio) : Attachment("audio")
 class Audio() : AudioAttachment(Audio())
@@ -89,37 +89,19 @@ class Link() : LinkAttachment(Link())
 
 
 object WallService {
-    var posts = emptyArray<Post>()
+    private var posts = emptyArray<Post>()
+
+    private var id = 0
 
     fun add(post: Post): Post {
-        posts += Post(
-            id = 1,
-            ownerId = 1,
-            fromId = 1,
-            createdBy = 1,
-            date = 2000,
-            text = "content2",
-            replyOwnerId = 1,
-            replyPostId = 1,
-            friendsOnly = false,
-            postType = "type2",
-            signerId = 1,
-            canPin = false,
-            canDelete = false,
-            canEdit = true,
-            isPinned = false,
-            markedAsAds = false,
-            isFavorite = false,
-            postponedId = 1,
-            attachment = arrayOf(Audio())
-        )
+        posts += post.copy(id = ++id)
         return posts.last()
     }
 
     fun update(post: Post): Boolean {
-        for ((id, post) in posts.withIndex()) {
+        for ((index, postArray) in posts.withIndex()) {
             if (post.id == id) {
-                posts[id] = post.copy(
+                posts[index] = postArray.copy(
                     ownerId = 1,
                     fromId = 1,
                     createdBy = 1,
@@ -135,8 +117,7 @@ object WallService {
                     isPinned = false,
                     markedAsAds = false,
                     isFavorite = false,
-                    postponedId = 1,
-                    attachment = arrayOf(Video())
+                    postponedId = 1
                 )
                 return true
             }
