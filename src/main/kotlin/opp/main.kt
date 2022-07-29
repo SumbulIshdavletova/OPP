@@ -110,7 +110,8 @@ object WallService {
 
     @Throws(PostNotFoundException::class)
     fun createComment(postId: Int, comment: Comment): Comment {
-        if (postId == id) {
+        var post = posts.last()
+        if (postId == post.id) {
             comments += comment.copy(0, 0, 100, "comment")
             return comments.last()
         }
