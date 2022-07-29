@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="opp.WallServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-07-29T18:36:12" hostname="SUMBUL" time="0.017">
+  <properties/>
+  <testcase name="addCommitted" classname="opp.WallServiceTest" time="0.015"/>
+  <testcase name="updateFalse" classname="opp.WallServiceTest" time="0.0"/>
+  <testcase name="shouldThrow" classname="opp.WallServiceTest" time="0.0"/>
+  <testcase name="updateTrue" classname="opp.WallServiceTest" time="0.0"/>
+  <testcase name="commentCreated" classname="opp.WallServiceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

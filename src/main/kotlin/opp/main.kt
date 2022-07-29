@@ -82,11 +82,18 @@ open class VideoAttachment(val video: Video) : Attachment("video")
 class Video() : VideoAttachment(Video())
 open class PhotoAttachment(val photo: Photo) : Attachment("photo")
 class Photo() : PhotoAttachment(Photo())
-open class DocAttachment( val doc: Doc) : Attachment("doc")
+open class DocAttachment(val doc: Doc) : Attachment("doc")
 class Doc() : DocAttachment(Doc())
-open class LinkAttachment(val link : Link) : Attachment("link")
+open class LinkAttachment(val link: Link) : Attachment("link")
 class Link() : LinkAttachment(Link())
 
+class PostNotFoundException() : RuntimeException()
+data class Comment(
+    val id: Int,
+    val fromId: Int,
+    val date: Int,
+    val text: String
+)
 
 object WallService {
     private var posts = emptyArray<Post>()
@@ -97,6 +104,19 @@ object WallService {
         posts += post.copy(id = ++id)
         return posts.last()
     }
+
+
+    private var comments = emptyArray<Comment>()
+
+    @Throws(PostNotFoundException::class)
+    fun createComment(postId: Int, comment: Comment): Comment {
+        if (postId == id) {
+            comments += comment.copy(0, 0, 100, "comment")
+            return comments.last()
+        }
+        throw PostNotFoundException()
+    }
+
 
     fun update(post: Post): Boolean {
         for ((index, postArray) in posts.withIndex()) {
@@ -125,7 +145,6 @@ object WallService {
         return false
     }
 }
-
 
 
 fun main() {

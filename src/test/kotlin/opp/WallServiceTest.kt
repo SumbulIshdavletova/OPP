@@ -88,6 +88,17 @@ class WallServiceTest {
         )
         assertFalse(result)
     }
+
+    @Test
+    fun commentCreated() {
+        WallService.createComment(1, Comment(0,2,345,"comment"))
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        WallService.createComment(4, Comment(3,2,345,"comment"))
+        // здесь код с вызовом функции, которая должна выкинуть PostNotFoundException
+    }
 }
 
 
