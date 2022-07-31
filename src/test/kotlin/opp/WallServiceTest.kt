@@ -91,14 +91,25 @@ class WallServiceTest {
 
     @Test
     fun commentCreated() {
-        WallService.createComment(1, Comment(0,2,345,"comment"))
+        WallService.createComment(1, Comment(0, 2, 345, "comment"))
     }
 
     @Test(expected = PostNotFoundException::class)
     fun shouldThrow() {
-        WallService.createComment(4, Comment(3,2,345,"comment"))
+        WallService.createComment(4, Comment(3, 2, 345, "comment"))
         // здесь код с вызовом функции, которая должна выкинуть PostNotFoundException
     }
+
+    @Test(expected = ReportCommentNotFoundException::class)
+    fun reportCommentOwnerId() {
+        WallService.reportComment(Report(2, 2, 2), 1)
+    }
+
+    @Test(expected = ReportReasonNotFoundException::class)
+    fun reportCommentReason() {
+        WallService.reportComment(Report(1, 2, 9), 1)
+    }
+
 }
 
 

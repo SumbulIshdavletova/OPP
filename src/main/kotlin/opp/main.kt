@@ -87,13 +87,23 @@ class Doc() : DocAttachment(Doc())
 open class LinkAttachment(val link: Link) : Attachment("link")
 class Link() : LinkAttachment(Link())
 
-class PostNotFoundException() : RuntimeException()
+class PostNotFoundException : RuntimeException()
+
 data class Comment(
     val id: Int,
     val fromId: Int,
     val date: Int,
     val text: String
 )
+
+data class Report(
+    val ownerId: Int,
+    val commentId: Int,
+    val reason: Int
+)
+
+class ReportCommentNotFoundException : RuntimeException()
+class ReportReasonNotFoundException : RuntimeException()
 
 object WallService {
     private var posts = emptyArray<Post>()
@@ -105,7 +115,6 @@ object WallService {
         return posts.last()
     }
 
-
     private var comments = emptyArray<Comment>()
 
     @Throws(PostNotFoundException::class)
@@ -116,6 +125,20 @@ object WallService {
             return comments.last()
         }
         throw PostNotFoundException()
+    }
+
+    var reports = emptyArray<Report>()
+
+    @Throws(ReportCommentNotFoundException::class, ReportReasonNotFoundException::class)
+    fun reportComment(report: Report, ownerId: Int): Boolean {
+        if (ownerId == report.ownerId) {
+            if (report.reason <= 8) {
+                reports += report
+                return true
+            }
+            throw ReportReasonNotFoundException()
+        }
+        throw ReportCommentNotFoundException()
     }
 
 
