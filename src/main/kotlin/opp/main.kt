@@ -105,7 +105,7 @@ data class Report(
 class ReportCommentNotFoundException : RuntimeException()
 class ReportReasonNotFoundException : RuntimeException()
 
-object WallService {
+class WallService {
     private var posts = emptyArray<Post>()
 
     private var id = 0
@@ -114,7 +114,18 @@ object WallService {
         posts += post.copy(id = ++id)
         return posts.last()
     }
-
+    fun update(post: Post): Boolean {
+        for ((index, postArray) in posts.withIndex()) {
+            if (post.id == id) {
+                posts[index] = postArray.copy(
+                    ownerId = postArray.ownerId,
+                    date = postArray.date
+                )
+                return true
+            }
+        }
+        return false
+    }
     private var comments = emptyArray<Comment>()
 
     @Throws(PostNotFoundException::class)
@@ -141,33 +152,6 @@ object WallService {
         throw ReportCommentNotFoundException()
     }
 
-
-    fun update(post: Post): Boolean {
-        for ((index, postArray) in posts.withIndex()) {
-            if (post.id == id) {
-                posts[index] = postArray.copy(
-                    ownerId = 1,
-                    fromId = 1,
-                    createdBy = 1,
-                    text = "content2",
-                    replyOwnerId = 1,
-                    replyPostId = 1,
-                    friendsOnly = false,
-                    postType = "type2",
-                    signerId = 1,
-                    canPin = false,
-                    canDelete = false,
-                    canEdit = true,
-                    isPinned = false,
-                    markedAsAds = false,
-                    isFavorite = false,
-                    postponedId = 1
-                )
-                return true
-            }
-        }
-        return false
-    }
 }
 
 
